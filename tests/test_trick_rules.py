@@ -34,3 +34,48 @@ def test_ace_beats_ten():
 
     assert winner == 1
 
+def test_followed_suit_wins():
+
+    cards = [
+        Card(Suit.SPADES, Rank.ACE),
+        Card(Suit.DIAMONDS, Rank.ACE),
+        Card(Suit.SPADES, Rank.TEN)
+    ]
+
+    winner = determine_trick_winner(
+        cards,
+        GameType.CLUB
+    )
+
+    assert winner == 0
+
+def test_trump_beats_lead_suit():
+
+    cards = [
+        Card(Suit.SPADES, Rank.ACE),
+        Card(Suit.HEARTS, Rank.ACE),
+        Card(Suit.CLUBS, Rank.JACK)
+    ]
+
+    winner = determine_trick_winner(
+        cards,
+        GameType.HEART
+    )
+
+    assert winner == 2
+
+def test_higher_card_same_suit_wins():
+
+    cards = [
+        Card(Suit.SPADES, Rank.TEN),
+        Card(Suit.SPADES, Rank.ACE),
+        Card(Suit.DIAMONDS, Rank.ACE)
+    ]
+
+    winner = determine_trick_winner(
+        cards,
+        GameType.CLUB
+    )
+
+    assert winner == 1
+
