@@ -1,5 +1,6 @@
 from rules.legal_moves import legal_moves
 from rules.trick_rules import determine_trick_winner
+from rules.scoring import calculate_trick_points
 
 
 def play_card(
@@ -61,6 +62,14 @@ def finish_trick(state):
     winning_player = (
         state.current_trick[winner_index][0]
     )
+
+    points = calculate_trick_points(
+        cards
+    )
+
+    state.scores[
+        winning_player
+    ] += points
 
     for _, card in state.current_trick:
         state.played_cards.append(card)

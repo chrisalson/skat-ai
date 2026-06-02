@@ -20,3 +20,5 @@ def test_create_game():
     assert len(state.skat) == 2
 
     assert state.current_player == 0
+
+    assert state.scores == [0, 0, 0]

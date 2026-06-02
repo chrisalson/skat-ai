@@ -17,3 +17,5 @@ class GameState:
     game_type: str
 
     current_player: int
+    
+    scores: list

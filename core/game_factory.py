@@ -15,5 +15,6 @@ def create_game(game_type):
         current_trick=[],
         played_cards=[],
         game_type=game_type,
-        current_player=0
+        current_player=0,
+        scores=[0, 0, 0]
     )
