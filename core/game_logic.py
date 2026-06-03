@@ -62,6 +62,10 @@ def finish_trick(state):
     winning_player = (
         state.current_trick[winner_index][0]
     )
+    
+    state.tricks_won[
+    winning_player
+] += 1
 
     points = calculate_trick_points(
         cards

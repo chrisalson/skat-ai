@@ -19,3 +19,5 @@ class GameState:
     current_player: int
     
     scores: list
+
+    tricks_won: list
