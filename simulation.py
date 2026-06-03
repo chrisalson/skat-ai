@@ -4,6 +4,8 @@ from core.game_logic import play_trick
 from agents.greedy_agent import GreedyAgent
 from agents.random_agent import RandomAgent
 from agents.trump_agent import TrumpAgent
+from agents.cheap_win_agent import CheapWinAgent
+from agents.treasure_hunter_agent import TreasureHunterAgent
 
 from rules.game_type import GameType
 
@@ -23,7 +25,7 @@ def run_simulation():
         )
 
         agents = [
-            TrumpAgent(2),
+            TreasureHunterAgent(),
             RandomAgent(),
             RandomAgent()
         ]

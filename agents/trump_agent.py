@@ -16,9 +16,16 @@ class TrumpAgent:
     def choose_move(
         self,
         hand,
-        lead_card,
+        current_trick,
         game_type
     ):
+        lead_card = None
+
+        if current_trick:
+
+            lead_card = (
+                current_trick[0][1]
+            )
 
         moves = legal_moves(
             hand,
