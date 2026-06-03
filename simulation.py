@@ -6,6 +6,7 @@ from agents.random_agent import RandomAgent
 from agents.trump_agent import TrumpAgent
 from agents.cheap_win_agent import CheapWinAgent
 from agents.treasure_hunter_agent import TreasureHunterAgent
+from agents.current_winner_agent import CurrentWinnerAgent
 
 from rules.game_type import GameType
 
@@ -25,7 +26,7 @@ def run_simulation():
         )
 
         agents = [
-            TreasureHunterAgent(),
+            CurrentWinnerAgent(),
             RandomAgent(),
             RandomAgent()
         ]
