@@ -21,3 +21,5 @@ class GameState:
     scores: list
 
     tricks_won: list
+
+    declarer: int

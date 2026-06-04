@@ -7,8 +7,10 @@ from agents.trump_agent import TrumpAgent
 from agents.cheap_win_agent import CheapWinAgent
 from agents.treasure_hunter_agent import TreasureHunterAgent
 from agents.current_winner_agent import CurrentWinnerAgent
+from agents.value_aware_agent import ValueAwareAgent
 
 from rules.game_type import GameType
+from rules.game_end import is_game_over
 
 
 NUM_GAMES = 1000
@@ -26,12 +28,14 @@ def run_simulation():
         )
 
         agents = [
-            CurrentWinnerAgent(),
+            ValueAwareAgent(),
             RandomAgent(),
             RandomAgent()
         ]
 
-        for _ in range(10):
+        while not is_game_over(
+        state
+    ):
 
             play_trick(
                 state,

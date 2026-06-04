@@ -17,5 +17,6 @@ def create_game(game_type):
         game_type=game_type,
         current_player=0,
         scores=[0, 0, 0],
-        tricks_won=[0, 0, 0]
+        tricks_won=[0, 0, 0],
+        declarer=0
     )
