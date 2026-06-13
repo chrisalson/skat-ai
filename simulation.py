@@ -8,6 +8,7 @@ from agents.cheap_win_agent import CheapWinAgent
 from agents.treasure_hunter_agent import TreasureHunterAgent
 from agents.current_winner_agent import CurrentWinnerAgent
 from agents.value_aware_agent import ValueAwareAgent
+from agents.greedy_value_agent import GreedyValueAgent
 
 from rules.game_type import GameType
 from rules.game_end import is_game_over
@@ -22,23 +23,59 @@ NUM_GAMES = 1000
 
 def run_simulation():
 
-    total_scores = [0, 0, 0]
-    total_tricks = [0, 0, 0]
+    total_tricks_played = 0
+
+    agent_scores = {}
+    agent_tricks = {}
+    agent_games = {}
 
     declarer_wins = 0
     defender_wins = 0
 
-    for _ in range(NUM_GAMES):
+    for game_number in range(NUM_GAMES):
 
         state = create_game(
             GameType.HEART
         )
 
-        agents = [
-            CurrentWinnerAgent(),
-            RandomAgent(),
+        all_agents = [
+            ValueAwareAgent(),
+            GreedyValueAgent(),
             RandomAgent()
         ]
+
+        for agent in all_agents:
+
+            if agent.name not in agent_scores:
+
+                agent_scores[
+                    agent.name
+                ] = 0
+
+                agent_tricks[
+                    agent.name
+                ] = 0
+
+                agent_games[
+                    agent.name
+                ] = 0
+
+        for agent in all_agents:
+
+            agent_games[
+                agent.name
+            ] += 1
+
+        rotation = (
+            game_number
+            % len(all_agents)
+        )
+
+        agents = (
+            all_agents[rotation:]
+            +
+            all_agents[:rotation]
+        )
 
         while not is_game_over(
             state
@@ -57,11 +94,23 @@ def run_simulation():
 
             defender_wins += 1
 
+        total_tricks_played += (
+            sum(
+                state.tricks_won
+            )
+        )
+
         for player in range(3):
+
+            agent_name = (
+                agents[player].name
+            )
 
             if player == state.declarer:
 
-                total_scores[player] += (
+                agent_scores[
+                    agent_name
+                ] += (
                     get_declarer_points(
                         state
                     )
@@ -69,11 +118,15 @@ def run_simulation():
 
             else:
 
-                total_scores[player] += (
+                agent_scores[
+                    agent_name
+                ] += (
                     state.scores[player]
                 )
 
-            total_tricks[player] += (
+            agent_tricks[
+                agent_name
+            ] += (
                 state.tricks_won[player]
             )
 
@@ -91,22 +144,43 @@ def run_simulation():
         f"({defender_wins / NUM_GAMES:.1%})"
     )
 
-    print("\n=== Ergebnisse ===\n")
+    print("\n=== Debug ===\n")
 
-    for player in range(3):
+    print(
+        f"Gespielte Stiche: "
+        f"{total_tricks_played}"
+    )
+
+    print("\n=== Agent Games ===\n")
+
+    for agent_name in agent_games:
+
+        print(
+            f"{agent_name}: "
+            f"{agent_games[agent_name]}"
+        )
+
+    print("\n=== Agenten ===\n")
+
+    for agent_name in agent_scores:
 
         average_score = (
-            total_scores[player]
+            agent_scores[agent_name]
             / NUM_GAMES
         )
 
         average_tricks = (
-            total_tricks[player]
+            agent_tricks[agent_name]
             / NUM_GAMES
         )
 
         print(
-            f"Spieler {player}: "
+            f"DEBUG {agent_name}: "
+            f"Tricks={agent_tricks[agent_name]}"
+        )
+
+        print(
+            f"{agent_name}: "
             f"{average_score:.2f} Augen | "
             f"{average_tricks:.2f} Stiche"
         )

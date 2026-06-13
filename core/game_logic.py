@@ -2,6 +2,7 @@ from rules.legal_moves import legal_moves
 from rules.trick_rules import determine_trick_winner
 from rules.scoring import calculate_trick_points
 
+DEBUG = False
 
 def play_card(
     state,
@@ -101,10 +102,10 @@ def play_trick(state, agents):
             state.current_trick,
             state.game_type
         )
-
-        print(
-            f"Spieler {player}: {card}"
-        )
+        if DEBUG:
+            print(
+                f"Spieler {player}: {card}"
+            )
 
         play_card(
             state,
@@ -116,7 +117,7 @@ def play_trick(state, agents):
             lead_card = card
 
     finish_trick(state)
-
-    print(
-        f"Gewinner: Spieler {state.current_player}"
-    )
+    if DEBUG:
+        print(
+            f"Gewinner: Spieler {state.current_player}"
+        )

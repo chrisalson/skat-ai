@@ -5,6 +5,8 @@ from rules.legal_moves import legal_moves
 
 class RandomAgent:
 
+    name = "Random"
+
     def choose_move(
         self,
         hand,

@@ -9,9 +9,9 @@ from rules.scoring import (
 )
 
 
-class ValueAwareAgent:
+class GreedyValueAgent:
     
-    name = "ValueAware"
+    name = "GreedyValue"
 
     def choose_move(
         self,
@@ -36,7 +36,7 @@ class ValueAwareAgent:
 
         if not current_trick:
 
-            return min(
+            return max(
                 moves,
                 key=lambda card:
                 CARD_POINTS[
@@ -80,12 +80,9 @@ class ValueAwareAgent:
                     card
                 )
 
-        if (
-            trick_value >= 10
-            and winning_moves
-        ):
+        if winning_moves:
 
-            return min(
+            return max(
                 winning_moves,
                 key=lambda card:
                 CARD_POINTS[
@@ -93,7 +90,7 @@ class ValueAwareAgent:
                 ]
             )
 
-        return min(
+        return max(
             moves,
             key=lambda card:
             CARD_POINTS[
