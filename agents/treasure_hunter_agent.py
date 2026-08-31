@@ -1,6 +1,12 @@
 from rules.legal_moves import legal_moves
 from rules.card_comparator import beats
-from rules.scoring import CARD_POINTS
+from rules.scoring import (
+    CARD_POINTS,
+    calculate_trick_points
+)
+from rules.trick_rules import (
+    determine_trick_winner
+)
 
 
 class TreasureHunterAgent:
@@ -11,6 +17,14 @@ class TreasureHunterAgent:
         current_trick,
         game_type
     ):
+
+        lead_card = None
+
+        if current_trick:
+
+            lead_card = (
+                current_trick[0][1]
+            )
 
         moves = legal_moves(
             hand,
@@ -29,8 +43,27 @@ class TreasureHunterAgent:
                 ]
             )
 
-        current_value = CARD_POINTS[
-            lead_card.rank
+        cards = [
+            card
+            for _, card
+            in current_trick
+        ]
+
+        current_value = (
+            calculate_trick_points(
+                cards
+            )
+        )
+
+        winner_index = (
+            determine_trick_winner(
+                cards,
+                game_type
+            )
+        )
+
+        current_winner = cards[
+            winner_index
         ]
 
         winning_moves = []
@@ -39,7 +72,7 @@ class TreasureHunterAgent:
 
             if beats(
                 card,
-                lead_card,
+                current_winner,
                 game_type
             ):
                 winning_moves.append(
